@@ -15,7 +15,7 @@
     void Loop();
 
 
-    public:
+    private:
     ROBOT &Robot;
 
     void ExecAuton1();

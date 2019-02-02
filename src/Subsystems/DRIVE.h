@@ -1,5 +1,6 @@
 
 #pragma once
+
 #include <Arduino.h>
 #include <YUKON_COMMAND.h>
 #include <Encoder.h>
@@ -16,19 +17,14 @@ class DRIVE : public YUKON_COMMAND
         void Loop();
 
         void OISetSpeed(int16_t DriveRightSpeed,int16_t DriveLeftSpeed);
+        int EighthTurnsWent = 0;
         bool ForAsync(long durationMS, int16_t DriveRightSpeed,int16_t DriveLeftSpeed);
         bool ForAsync(long durationMS, int16_t DriveRightSpeed,int16_t DriveLeftSpeed, uint8_t HoldPercent);
-        bool ForInches(long Inches, int16_t DriveRightSpeed, int16_t DriveLeftSpeed, uint8_t HoldUntilPercent);
-        bool ForInches(long Inches, int16_t DriveRightSpeed, int16_t DriveLeftSpeed);
-        bool Turn(long Degrees, int16_t DriveRightSpeed, int16_t DriveLeftSpeed, uint8_t HoldUntilPercent);
-        bool Turn(long Degrees, int16_t DriveRightSpeed, int16_t DriveLeftSpeed);
-        int EighthTurnsWent = 0;
-
-
-void EncReport() 
+        bool ForSensor(int EighthTurnsWent, int16_t DriveRightSpeed,int16_t DriveLeftSpeed, uint8_t HoldPercent);
+long EncReport() 
 {
         long oldPosition = 0;
-        Encoder myEnc(32, 27);
+        Encoder myEnc(26, 27);
         long NewLeftPos = myEnc.read();
     if (NewLeftPos != oldPosition) 
         oldPosition = NewLeftPos;
@@ -64,6 +60,10 @@ void EncReport()
     {
         EighthTurnsWent = EighthTurnsWent + 1;
     }
+        while (true)
+        {
+            EncReport();
+        }
 }
 
 
